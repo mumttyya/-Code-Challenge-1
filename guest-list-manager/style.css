@@ -1,0 +1,19 @@
+.tag {
+  padding: 2px 6px;
+  margin-left: 6px;
+  border-radius: 5px;
+  font-size: 0.8em;
+  color: white;
+}
+
+.friend {
+  background-color: #3498db;
+}
+
+.family {
+  background-color: #2ecc71;
+}
+
+.colleague {
+  background-color: #e67e22;
+}

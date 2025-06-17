@@ -1,0 +1,52 @@
+const form = document.getElementById("guest-form");
+const input = document.getElementById("guest-name");
+const guestList = document.getElementById("guest-list");
+
+let guests = [];
+
+form.addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const name = input.value.trim();
+  if (!name) return;
+
+  if (guests.length >= 10) {
+    alert("Guest limit reached (10 guests max).");
+    return;
+  }
+
+  const guest = {
+    name,
+    attending: false,
+    id: Date.now()
+  };
+
+  guests.push(guest);
+  addGuestToDOM(guest);
+  input.value = "";
+});
+
+function addGuestToDOM(guest) {
+  const li = document.createElement("li");
+  li.dataset.id = guest.id;
+
+  const nameSpan = document.createElement("span");
+  nameSpan.textContent = guest.name;
+
+  const rsvpBtn = document.createElement("button");
+  rsvpBtn.textContent = "Not Attending";
+  rsvpBtn.addEventListener("click", () => {
+    guest.attending = !guest.attending;
+    rsvpBtn.textContent = guest.attending ? "Attending" : "Not Attending";
+  });
+
+  const removeBtn = document.createElement("button");
+  removeBtn.textContent = "Remove";
+  removeBtn.addEventListener("click", () => {
+    guests = guests.filter(g => g.id !== guest.id);
+    li.remove();
+  });
+
+  li.append(nameSpan, " ", rsvpBtn, " ", removeBtn);
+  guestList.appendChild(li);
+}

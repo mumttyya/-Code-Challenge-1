@@ -1,0 +1,74 @@
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById("guest-form");
+  const input = document.getElementById("guest-name");
+  const categorySelect = document.getElementById("guest-category");
+  const list = document.getElementById("guest-list");
+
+  let guests = [];
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const name = input.value.trim();
+    const category = categorySelect.value;
+
+    if (!name) return;
+
+    if (guests.length >= 10) {
+      alert("Guest limit reached (10 guests max).");
+    }
+
+    const guest = {
+      name,
+      category,
+      attending: false,
+      id: Date.now()
+    };
+
+    guests.push(guest);
+    renderGuest(guest);
+    input.value = "";
+  });
+
+  function renderGuest(guest) {
+    const li = document.createElement("li");
+    li.dataset.id = guest.id;
+
+    const nameSpan = document.createElement("span");
+    nameSpan.textContent = guest.name;
+
+    const categoryTag = document.createElement("span");
+    categoryTag.textContent = ` (${guest.category})`;
+    categoryTag.className = `tag ${guest.category.toLowerCase()}`;
+
+    const rsvpBtn = document.createElement("button");
+    rsvpBtn.textContent = "Not Attending";
+    rsvpBtn.addEventListener("click", () => {
+      guest.attending = !guest.attending;
+      rsvpBtn.textContent = guest.attending ? "Attending" : "Not Attending";
+    });
+
+    const removeBtn = document.createElement("button");
+    removeBtn.textContent = "Remove";
+    removeBtn.addEventListener("click", () => {
+      guests = guests.filter(g => g.id !== guest.id);
+      li.remove();
+    });
+
+    li.append(nameSpan, categoryTag, " ", rsvpBtn, " ", removeBtn);
+    list.appendChild(li);
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
